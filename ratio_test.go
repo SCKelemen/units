@@ -95,9 +95,9 @@ func TestRatioSimplify(t *testing.T) {
 }
 
 func TestRatioComparison(t *testing.T) {
-	r1 := NewRatio(16, 9)  // ~1.778
-	r2 := NewRatio(4, 3)   // ~1.333
-	r3 := NewRatio(16, 9)  // ~1.778
+	r1 := NewRatio(16, 9) // ~1.778
+	r2 := NewRatio(4, 3)  // ~1.333
+	r3 := NewRatio(16, 9) // ~1.778
 
 	t.Run("Equals", func(t *testing.T) {
 		if !r1.Equals(r3) {

@@ -31,9 +31,9 @@ type ResolutionUnit string
 //   - 1dpcm = 96dpi / 2.54 ≈ 37.795dpi
 //   - 1in = 2.54cm
 const (
-	DotsPerInch      ResolutionUnit = "dpi"  // Dots per inch
+	DotsPerInch       ResolutionUnit = "dpi"  // Dots per inch
 	DotsPerCentimeter ResolutionUnit = "dpcm" // Dots per centimeter
-	DotsPerPixel     ResolutionUnit = "dppx" // Dots per pixel unit
+	DotsPerPixel      ResolutionUnit = "dppx" // Dots per pixel unit
 )
 
 // ═══════════════════════════════════════════════════════════════
@@ -145,9 +145,9 @@ func (r Resolution) GreaterThan(other Resolution) bool {
 // ═══════════════════════════════════════════════════════════════
 
 const (
-	dpiPerDppx       = 96.0
-	cmPerInchRes     = 2.54
-	dpiPerDpcm       = dpiPerDppx / cmPerInchRes // ≈ 37.795275591
+	dpiPerDppx   = 96.0
+	cmPerInchRes = 2.54
+	dpiPerDpcm   = dpiPerDppx / cmPerInchRes // ≈ 37.795275591
 )
 
 // ToDpi converts any resolution value to dots per inch.

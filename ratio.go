@@ -195,11 +195,11 @@ func greatestCommonDivisor(a, b float64) float64 {
 
 var (
 	// Common aspect ratios
-	Ratio16x9  = NewRatio(16, 9)  // Standard widescreen
-	Ratio16x10 = NewRatio(16, 10) // Computer display
-	Ratio4x3   = NewRatio(4, 3)   // Traditional TV/monitor
-	Ratio3x2   = NewRatio(3, 2)   // Classic 35mm film
-	Ratio21x9  = NewRatio(21, 9)  // Ultrawide
-	Ratio1x1   = NewRatio(1, 1)   // Square
+	Ratio16x9   = NewRatio(16, 9)    // Standard widescreen
+	Ratio16x10  = NewRatio(16, 10)   // Computer display
+	Ratio4x3    = NewRatio(4, 3)     // Traditional TV/monitor
+	Ratio3x2    = NewRatio(3, 2)     // Classic 35mm film
+	Ratio21x9   = NewRatio(21, 9)    // Ultrawide
+	Ratio1x1    = NewRatio(1, 1)     // Square
 	GoldenRatio = NewRatio(1.618, 1) // Golden ratio (φ)
 )

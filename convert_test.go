@@ -200,8 +200,8 @@ func TestContextResolveViewportRelative(t *testing.T) {
 		{"50vw", Vw(50), 960.0},
 		{"100vh", Vh(100), 1080.0},
 		{"50vh", Vh(50), 540.0},
-		{"10vmin", Vmin(10), 108.0},  // min(1920, 1080) = 1080, 10% = 108
-		{"10vmax", Vmax(10), 192.0},  // max(1920, 1080) = 1920, 10% = 192
+		{"10vmin", Vmin(10), 108.0}, // min(1920, 1080) = 1080, 10% = 108
+		{"10vmax", Vmax(10), 192.0}, // max(1920, 1080) = 1920, 10% = 192
 	}
 
 	for _, tt := range tests {
@@ -232,8 +232,8 @@ func TestContextResolveContainerRelative(t *testing.T) {
 		{"50cqw", Cqw(50), 400.0},
 		{"100cqh", Cqh(100), 600.0},
 		{"50cqh", Cqh(50), 300.0},
-		{"10cqmin", Cqmin(10), 60.0},  // min(800, 600) = 600, 10% = 60
-		{"10cqmax", Cqmax(10), 80.0},  // max(800, 600) = 800, 10% = 80
+		{"10cqmin", Cqmin(10), 60.0}, // min(800, 600) = 600, 10% = 60
+		{"10cqmax", Cqmax(10), 80.0}, // max(800, 600) = 800, 10% = 80
 	}
 
 	for _, tt := range tests {

@@ -6,6 +6,16 @@ import "fmt"
 //  Absolute Length Conversions
 // ═══════════════════════════════════════════════════════════════
 
+// This file implements unit conversion functionality for CSS length values,
+// including both absolute conversions and context-aware relative conversions.
+//
+// References:
+//   - CSS Values Level 4 - Absolute Lengths: https://www.w3.org/TR/css-values-4/#absolute-lengths
+//   - CSS Values Level 4 - Font Relative Lengths: https://www.w3.org/TR/css-values-4/#font-relative-lengths
+//   - CSS Values Level 4 - Viewport Relative Lengths: https://www.w3.org/TR/css-values-4/#viewport-relative-lengths
+//   - CSS Containment Module Level 3 - Container Relative Lengths: https://www.w3.org/TR/css-contain-3/#container-lengths
+//   - MDN - CSS values and units: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Values_and_Units
+
 // Conversion ratios per CSS Values spec:
 // The anchor unit is the pixel (px).
 // 1in = 2.54cm = 96px
@@ -106,14 +116,14 @@ func (l Length) To(targetUnit LengthUnit) (Length, error) {
 // to absolute values.
 type Context struct {
 	// Font metrics for font-relative units
-	FontSize         float64 // For em, ch, ex, etc. (in px)
-	RootFontSize     float64 // For rem, rch, rex, etc. (in px)
-	XHeight          float64 // For ex (in px)
-	CapHeight        float64 // For cap (in px)
-	ChWidth          float64 // For ch - width of "0" glyph (in px)
-	IcWidth          float64 // For ic - width of "水" glyph (in px)
-	LineHeight       float64 // For lh (in px)
-	RootLineHeight   float64 // For rlh (in px)
+	FontSize       float64 // For em, ch, ex, etc. (in px)
+	RootFontSize   float64 // For rem, rch, rex, etc. (in px)
+	XHeight        float64 // For ex (in px)
+	CapHeight      float64 // For cap (in px)
+	ChWidth        float64 // For ch - width of "0" glyph (in px)
+	IcWidth        float64 // For ic - width of "水" glyph (in px)
+	LineHeight     float64 // For lh (in px)
+	RootLineHeight float64 // For rlh (in px)
 
 	// Viewport dimensions for viewport-relative units
 	ViewportWidth  float64 // For vw, vi, etc. (in px)
