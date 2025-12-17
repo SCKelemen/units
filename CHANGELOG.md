@@ -12,6 +12,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CSS color value types
 - Additional utility functions based on user feedback
 
+## [1.0.1] - 2025-12-17
+
+### Fixed
+- Fixed golangci-lint errors for built-in identifier shadowing (min/max variables)
+- Changed Context parameter to pointer to reduce memory overhead
+- Removed deprecated golangci-lint configuration options
+- Updated documentation examples to reflect pointer usage
+
+### Changed
+- `Length.Resolve(ctx Context)` is now `Length.Resolve(ctx *Context)` (breaking change for type signature)
+
 ## [1.0.0] - 2025-12-17
 
 ### Added
