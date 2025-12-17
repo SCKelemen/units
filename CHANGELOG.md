@@ -12,6 +12,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CSS color value types
 - Additional utility functions based on user feedback
 
+## [1.0.2] - 2025-12-17
+
+### Fixed
+- Fixed all remaining golangci-lint errors
+- Fixed `Clamp()` parameter shadowing in Integer, Number, and Percentage types (renamed `min`/`max` to `minValue`/`maxValue`)
+- Fixed G601 implicit memory aliasing in test loop
+- Renamed `Integer.Min()`/`Max()` methods to `Minimum()`/`Maximum()` to avoid confusion with Go 1.21+ built-in functions
+
+### Changed
+- Updated CI to test on Go 1.21, 1.23, and 1.25 (replaced 1.22 with 1.25)
+- All lint, vet, and build checks now use Go 1.25
+
+### Breaking Changes
+- `Integer.Min()` is now `Integer.Minimum()`
+- `Integer.Max()` is now `Integer.Maximum()`
+
 ## [1.0.1] - 2025-12-17
 
 ### Fixed
