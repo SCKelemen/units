@@ -115,13 +115,13 @@ func (p Percentage) Equals(other Percentage) bool {
 //
 //	pct := units.Percent(150)
 //	clamped := pct.Clamp(0, 100)  // Returns units.Percent(100)
-func (p Percentage) Clamp(min, max float64) Percentage {
+func (p Percentage) Clamp(minValue, maxValue float64) Percentage {
 	value := p.Value
-	if value < min {
-		value = min
+	if value < minValue {
+		value = minValue
 	}
-	if value > max {
-		value = max
+	if value > maxValue {
+		value = maxValue
 	}
 	return Percentage{Value: value}
 }

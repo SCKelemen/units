@@ -137,13 +137,13 @@ func (n Number) Equals(other Number) bool {
 //
 //	num := units.Num(1.8)
 //	clamped := num.Clamp(0, 1)  // Returns units.Num(1)
-func (n Number) Clamp(min, max float64) Number {
+func (n Number) Clamp(minValue, maxValue float64) Number {
 	value := n.Value
-	if value < min {
-		value = min
+	if value < minValue {
+		value = minValue
 	}
-	if value > max {
-		value = max
+	if value > maxValue {
+		value = maxValue
 	}
 	return Number{Value: value}
 }

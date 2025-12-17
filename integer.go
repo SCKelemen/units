@@ -151,13 +151,13 @@ func (i Integer) Equals(other Integer) bool {
 //
 //	num := units.Int(150)
 //	clamped := num.Clamp(0, 100)  // Returns units.Int(100)
-func (i Integer) Clamp(min, max int64) Integer {
+func (i Integer) Clamp(minValue, maxValue int64) Integer {
 	value := i.Value
-	if value < min {
-		value = min
+	if value < minValue {
+		value = minValue
 	}
-	if value > max {
-		value = max
+	if value > maxValue {
+		value = maxValue
 	}
 	return Integer{Value: value}
 }
