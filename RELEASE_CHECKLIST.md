@@ -29,9 +29,10 @@ This checklist ensures the package is ready for v1.0.0 release.
 
 ### Repository Setup
 - [x] GitHub Actions CI workflow configured (.github/workflows/ci.yml)
+  - [x] Testing on Go 1.21, 1.23, 1.25
 - [x] golangci-lint configuration added (.golangci.yml)
 - [x] go.mod specifies Go 1.21+ compatibility
-- [ ] .gitignore includes common Go artifacts
+- [x] .gitignore includes common Go artifacts
 
 ### Testing
 - [x] Unit tests for all types
