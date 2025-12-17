@@ -162,16 +162,16 @@ func (i Integer) Clamp(min, max int64) Integer {
 	return Integer{Value: value}
 }
 
-// Min returns the smaller of two integers.
-func (i Integer) Min(other Integer) Integer {
+// Minimum returns the smaller of two integers.
+func (i Integer) Minimum(other Integer) Integer {
 	if i.Value < other.Value {
 		return i
 	}
 	return other
 }
 
-// Max returns the larger of two integers.
-func (i Integer) Max(other Integer) Integer {
+// Maximum returns the larger of two integers.
+func (i Integer) Maximum(other Integer) Integer {
 	if i.Value > other.Value {
 		return i
 	}

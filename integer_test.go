@@ -174,17 +174,17 @@ func TestIntegerAbs(t *testing.T) {
 }
 
 func TestIntegerMinMax(t *testing.T) {
-	t.Run("Min", func(t *testing.T) {
-		result := Int(10).Min(Int(5))
+	t.Run("Minimum", func(t *testing.T) {
+		result := Int(10).Minimum(Int(5))
 		if result.Value != 5 {
-			t.Errorf("Min() = %d, want 5", result.Value)
+			t.Errorf("Minimum() = %d, want 5", result.Value)
 		}
 	})
 
-	t.Run("Max", func(t *testing.T) {
-		result := Int(10).Max(Int(5))
+	t.Run("Maximum", func(t *testing.T) {
+		result := Int(10).Maximum(Int(5))
 		if result.Value != 10 {
-			t.Errorf("Max() = %d, want 10", result.Value)
+			t.Errorf("Maximum() = %d, want 10", result.Value)
 		}
 	})
 }
