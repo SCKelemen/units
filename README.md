@@ -116,7 +116,7 @@ Resolve relative units to absolute pixels using a rendering context:
 
 ```go
 // Create a context with rendering information
-ctx := units.Context{
+ctx := &units.Context{
     FontSize:       16.0,
     RootFontSize:   16.0,
     ViewportWidth:  1920.0,

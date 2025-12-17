@@ -138,13 +138,13 @@ type Context struct {
 //
 // Example:
 //
-//	ctx := units.Context{
+//	ctx := &units.Context{
 //	    FontSize: 16.0,
 //	    ViewportWidth: 1920.0,
 //	}
 //	length := units.Em(2)
 //	px, err := length.Resolve(ctx)  // Returns units.Px(32)
-func (l Length) Resolve(ctx Context) (Length, error) {
+func (l Length) Resolve(ctx *Context) (Length, error) {
 	// Absolute units can be converted directly
 	if l.IsAbsolute() {
 		return l.ToPx()
@@ -219,21 +219,21 @@ func (l Length) Resolve(ctx Context) (Length, error) {
 		if ctx.ViewportWidth == 0 || ctx.ViewportHeight == 0 {
 			return Length{}, fmt.Errorf("cannot resolve vmin: ViewportWidth and ViewportHeight not set in context")
 		}
-		min := ctx.ViewportWidth
-		if ctx.ViewportHeight < min {
-			min = ctx.ViewportHeight
+		minDimension := ctx.ViewportWidth
+		if ctx.ViewportHeight < minDimension {
+			minDimension = ctx.ViewportHeight
 		}
-		pxValue = l.Value * min / 100.0
+		pxValue = l.Value * minDimension / 100.0
 
 	case VmaxUnit:
 		if ctx.ViewportWidth == 0 || ctx.ViewportHeight == 0 {
 			return Length{}, fmt.Errorf("cannot resolve vmax: ViewportWidth and ViewportHeight not set in context")
 		}
-		max := ctx.ViewportWidth
-		if ctx.ViewportHeight > max {
-			max = ctx.ViewportHeight
+		maxDimension := ctx.ViewportWidth
+		if ctx.ViewportHeight > maxDimension {
+			maxDimension = ctx.ViewportHeight
 		}
-		pxValue = l.Value * max / 100.0
+		pxValue = l.Value * maxDimension / 100.0
 
 	// Container-relative units
 	case CqwUnit:
@@ -252,21 +252,21 @@ func (l Length) Resolve(ctx Context) (Length, error) {
 		if ctx.ContainerWidth == 0 || ctx.ContainerHeight == 0 {
 			return Length{}, fmt.Errorf("cannot resolve cqmin: ContainerWidth and ContainerHeight not set in context")
 		}
-		min := ctx.ContainerWidth
-		if ctx.ContainerHeight < min {
-			min = ctx.ContainerHeight
+		minDimension := ctx.ContainerWidth
+		if ctx.ContainerHeight < minDimension {
+			minDimension = ctx.ContainerHeight
 		}
-		pxValue = l.Value * min / 100.0
+		pxValue = l.Value * minDimension / 100.0
 
 	case CqmaxUnit:
 		if ctx.ContainerWidth == 0 || ctx.ContainerHeight == 0 {
 			return Length{}, fmt.Errorf("cannot resolve cqmax: ContainerWidth and ContainerHeight not set in context")
 		}
-		max := ctx.ContainerWidth
-		if ctx.ContainerHeight > max {
-			max = ctx.ContainerHeight
+		maxDimension := ctx.ContainerWidth
+		if ctx.ContainerHeight > maxDimension {
+			maxDimension = ctx.ContainerHeight
 		}
-		pxValue = l.Value * max / 100.0
+		pxValue = l.Value * maxDimension / 100.0
 
 	default:
 		return Length{}, fmt.Errorf("unsupported unit for resolution: %s", l.Unit)

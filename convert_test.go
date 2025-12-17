@@ -134,7 +134,7 @@ func TestContextResolveAbsolute(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result, err := tt.length.Resolve(ctx)
+			result, err := tt.length.Resolve(&ctx)
 			if err != nil {
 				t.Fatalf("Resolve() error = %v", err)
 			}
@@ -174,7 +174,7 @@ func TestContextResolveFontRelative(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result, err := tt.length.Resolve(ctx)
+			result, err := tt.length.Resolve(&ctx)
 			if err != nil {
 				t.Fatalf("Resolve() error = %v", err)
 			}
@@ -206,7 +206,7 @@ func TestContextResolveViewportRelative(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result, err := tt.length.Resolve(ctx)
+			result, err := tt.length.Resolve(&ctx)
 			if err != nil {
 				t.Fatalf("Resolve() error = %v", err)
 			}
@@ -238,7 +238,7 @@ func TestContextResolveContainerRelative(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result, err := tt.length.Resolve(ctx)
+			result, err := tt.length.Resolve(&ctx)
 			if err != nil {
 				t.Fatalf("Resolve() error = %v", err)
 			}
@@ -262,7 +262,7 @@ func TestContextResolveErrorMissingContext(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			_, err := tt.length.Resolve(tt.ctx)
+			_, err := tt.length.Resolve(&tt.ctx)
 			if err == nil {
 				t.Errorf("Resolve() should return error when context is missing")
 			}
@@ -283,7 +283,7 @@ func BenchmarkResolveAbsolute(b *testing.B) {
 	ctx := Context{}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		_, _ = length.Resolve(ctx)
+		_, _ = length.Resolve(&ctx)
 	}
 }
 
@@ -292,7 +292,7 @@ func BenchmarkResolveFontRelative(b *testing.B) {
 	ctx := Context{FontSize: 16.0}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		_, _ = length.Resolve(ctx)
+		_, _ = length.Resolve(&ctx)
 	}
 }
 
@@ -301,6 +301,6 @@ func BenchmarkResolveViewportRelative(b *testing.B) {
 	ctx := Context{ViewportWidth: 1920.0}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		_, _ = length.Resolve(ctx)
+		_, _ = length.Resolve(&ctx)
 	}
 }
