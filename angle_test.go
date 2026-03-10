@@ -165,6 +165,68 @@ func TestAngleIsZero(t *testing.T) {
 	}
 }
 
+func TestParseAngle(t *testing.T) {
+	tests := []struct {
+		name      string
+		input     string
+		want      Angle
+		wantError bool
+	}{
+		{"Degree unit", "180deg", Deg(180), false},
+		{"Gradian unit", "200grad", Grad(200), false},
+		{"Radian unit", "3.141592653589793rad", Rad(math.Pi), false},
+		{"Turn unit", "0.5turn", Turns(0.5), false},
+		{"Bare number defaults to deg", "90", Deg(90), false},
+		{"Whitespace", "  45deg  ", Deg(45), false},
+		{"Space between number and unit", "180 deg", Deg(180), false},
+		{"Case insensitive unit", "0.5TURN", Turns(0.5), false},
+		{"Scientific notation", "1e2deg", Deg(100), false},
+		{"Empty", "", Angle{}, true},
+		{"Missing number", "deg", Angle{}, true},
+		{"Unsupported unit", "10foo", Angle{}, true},
+		{"Non-finite", "NaNdeg", Angle{}, true},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := ParseAngle(tt.input)
+			if tt.wantError {
+				if err == nil {
+					t.Fatalf("ParseAngle(%q) expected error, got nil", tt.input)
+				}
+				return
+			}
+			if err != nil {
+				t.Fatalf("ParseAngle(%q) unexpected error: %v", tt.input, err)
+			}
+			if got.Unit != tt.want.Unit {
+				t.Fatalf("ParseAngle(%q) unit = %s, want %s", tt.input, got.Unit, tt.want.Unit)
+			}
+			if !almostEqual(got.Value, tt.want.Value) {
+				t.Fatalf("ParseAngle(%q) value = %.12f, want %.12f", tt.input, got.Value, tt.want.Value)
+			}
+		})
+	}
+}
+
+func TestMustParseAngle(t *testing.T) {
+	t.Run("Valid", func(t *testing.T) {
+		a := MustParseAngle("90deg")
+		if a.Unit != Degree || !almostEqual(a.Value, 90) {
+			t.Fatalf("MustParseAngle(valid) = %+v, want 90deg", a)
+		}
+	})
+
+	t.Run("Invalid panics", func(t *testing.T) {
+		defer func() {
+			if r := recover(); r == nil {
+				t.Fatal("MustParseAngle(invalid) expected panic")
+			}
+		}()
+		_ = MustParseAngle("invalid")
+	})
+}
+
 func BenchmarkAngleToDeg(b *testing.B) {
 	angle := Rad(math.Pi)
 	b.ResetTimer()

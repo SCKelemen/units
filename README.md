@@ -157,6 +157,10 @@ radians := degrees.ToRad()
 turns := degrees.ToTurns()
 fmt.Println(radians) // 3.14rad
 fmt.Println(turns)   // 0.50turn
+
+// Parse CSS angle strings
+angle, _ := units.ParseAngle("0.5turn")
+fmt.Println(angle.ToDeg()) // 180.00deg
 ```
 
 ### Time Conversions

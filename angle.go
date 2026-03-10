@@ -3,6 +3,8 @@ package units
 import (
 	"fmt"
 	"math"
+	"strconv"
+	"strings"
 )
 
 // ═══════════════════════════════════════════════════════════════
@@ -79,6 +81,81 @@ func Rad(value float64) Angle {
 //	angle := units.Turns(0.25)  // 0.25 turns (quarter circle)
 func Turns(value float64) Angle {
 	return Angle{Value: value, Unit: Turn}
+}
+
+// ParseAngle parses a CSS angle string into an Angle.
+//
+// Supported formats:
+//   - "<number>deg" (degrees)
+//   - "<number>grad" (gradians)
+//   - "<number>rad" (radians)
+//   - "<number>turn" (turns)
+//   - "<number>" (defaults to degrees)
+//
+// The parser is case-insensitive and accepts optional whitespace.
+//
+// Examples:
+//
+//	angle, _ := units.ParseAngle("180deg")
+//	angle, _ := units.ParseAngle("0.5turn")
+//	angle, _ := units.ParseAngle("3.14159rad")
+//	angle, _ := units.ParseAngle("200grad")
+//	angle, _ := units.ParseAngle("90") // defaults to degrees
+func ParseAngle(input string) (Angle, error) {
+	s := strings.TrimSpace(input)
+	if s == "" {
+		return Angle{}, fmt.Errorf("invalid angle %q: empty value", input)
+	}
+
+	// Split "<number><unit>" where unit is optional trailing letters.
+	// This also allows optional whitespace between number and unit.
+	unitStart := len(s)
+	for unitStart > 0 {
+		ch := s[unitStart-1]
+		if (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') {
+			unitStart--
+			continue
+		}
+		break
+	}
+
+	numberPart := strings.TrimSpace(s[:unitStart])
+	unitPart := strings.ToLower(strings.TrimSpace(s[unitStart:]))
+	if numberPart == "" {
+		return Angle{}, fmt.Errorf("invalid angle %q: missing numeric value", input)
+	}
+
+	value, err := strconv.ParseFloat(numberPart, 64)
+	if err != nil {
+		return Angle{}, fmt.Errorf("invalid angle %q: %w", input, err)
+	}
+	if math.IsNaN(value) || math.IsInf(value, 0) {
+		return Angle{}, fmt.Errorf("invalid angle %q: value must be finite", input)
+	}
+
+	switch unitPart {
+	case "":
+		return Deg(value), nil
+	case string(Degree):
+		return Deg(value), nil
+	case string(Gradian):
+		return Grad(value), nil
+	case string(Radian):
+		return Rad(value), nil
+	case string(Turn):
+		return Turns(value), nil
+	default:
+		return Angle{}, fmt.Errorf("invalid angle %q: unsupported unit %q", input, unitPart)
+	}
+}
+
+// MustParseAngle parses a CSS angle string and panics if parsing fails.
+func MustParseAngle(input string) Angle {
+	angle, err := ParseAngle(input)
+	if err != nil {
+		panic(err)
+	}
+	return angle
 }
 
 // ═══════════════════════════════════════════════════════════════
