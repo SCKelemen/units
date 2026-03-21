@@ -273,6 +273,68 @@ func TestLengthComparison(t *testing.T) {
 	}
 }
 
+func TestParseLength(t *testing.T) {
+	tests := []struct {
+		name    string
+		input   string
+		want    Length
+		wantErr bool
+	}{
+		{name: "px", input: "24px", want: Px(24)},
+		{name: "unitless defaults to px", input: "24", want: Px(24)},
+		{name: "uppercase Q unit", input: "10Q", want: Q(10)},
+		{name: "font relative", input: "1.5rem", want: Rem(1.5)},
+		{name: "viewport relative", input: "-0.25vh", want: Vh(-0.25)},
+		{name: "container relative", input: "4cqi", want: Cqi(4)},
+		{name: "dynamic viewport", input: "2dvw", want: Length{Value: 2, Unit: DVW}},
+		{name: "small viewport", input: "3svh", want: Length{Value: 3, Unit: SVH}},
+		{name: "invalid empty", input: "", wantErr: true},
+		{name: "invalid unit", input: "12foo", wantErr: true},
+		{name: "missing number", input: "px", wantErr: true},
+		{name: "percentage unsupported", input: "50%", wantErr: true},
+		{name: "nan unsupported", input: "NaNpx", wantErr: true},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := ParseLength(tt.input)
+			if tt.wantErr {
+				if err == nil {
+					t.Fatalf("ParseLength(%q) expected error, got nil", tt.input)
+				}
+				return
+			}
+			if err != nil {
+				t.Fatalf("ParseLength(%q) unexpected error: %v", tt.input, err)
+			}
+			if got.Unit != tt.want.Unit {
+				t.Fatalf("ParseLength(%q) unit = %s, want %s", tt.input, got.Unit, tt.want.Unit)
+			}
+			if got.Value != tt.want.Value {
+				t.Fatalf("ParseLength(%q) value = %.12f, want %.12f", tt.input, got.Value, tt.want.Value)
+			}
+		})
+	}
+}
+
+func TestMustParseLength(t *testing.T) {
+	t.Run("valid", func(t *testing.T) {
+		l := MustParseLength("90px")
+		if l.Unit != PX || l.Value != 90 {
+			t.Fatalf("MustParseLength(valid) = %+v, want 90px", l)
+		}
+	})
+
+	t.Run("invalid panics", func(t *testing.T) {
+		defer func() {
+			if recover() == nil {
+				t.Fatal("MustParseLength(invalid) expected panic")
+			}
+		}()
+		_ = MustParseLength("invalid")
+	})
+}
+
 func TestLengthComparisonPanic(t *testing.T) {
 	t.Run("LessThan panics with different units", func(t *testing.T) {
 		defer func() {
